@@ -1,0 +1,110 @@
+{% extends "layouts/baseCRUDConc.html" %}
+
+{% block title %} Creación de un nuevo concurso {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<main>
+
+    {% include 'includes/preloader.html' %}
+
+    <!-- Hero -->
+    <div class="section-header pb-6 bg-primary text-white">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 text-center">
+                    <h1 class="display-3 mb-4">Crear un nuevo concurso</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Hero -->
+    <form method="POST" action="" action="#">
+        <!-- Section -->
+        <div class="section section-md pt-4">
+            <div class="container">
+                <div class="row mb-4 mb-lg-5">
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="mb-4">
+                            <label for="nombreConcurso">Nombre</label>
+                            <input type="text" class="form-control" id="nombreConcurso" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="fecIniConc">Fecha de inicio</label>
+                            <div class="form-group">
+                                <div class="input-group input-group-border">
+                                    <span class="input-group-text" id="basic-addonDate2"><span
+                                            class="fas far fa-calendar-alt"></span></span>
+                                    <input class="form-control" data-datepicker="" id="fecIniConc"
+                                        placeholder="Start date" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="form-group">
+                                <label for="fecFinConc">Fecha de finalización</label>
+                                <div class="input-group input-group-border">
+                                    <span class="input-group-text" id="basic-addonDate3"><span
+                                            class="fas far fa-calendar-alt"></span></span>
+                                    <input class="form-control" data-datepicker="" id="fecFinConc"
+                                        placeholder="End date" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="mb-4">
+                            <label for="URLConcurso">URL Deseada</label>
+                            <input type="url" class="form-control" id="URLConcurso">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="pago">Pago al ganador</label>
+                            <input type="text" name="pago" id="pago" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
+                                class="form-control" value="" data-type="currency" placeholder="$1,000,000.00">
+                        </div>
+                        <div class="mb-4">
+                            <label for="currency-field">Imagen del concurso</label>
+                            <input type="file" name="imgConc" id="currency-field">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="mb-4">
+                            <label for="exampleFormControlTextarea1">Guión</label>
+                            <textarea class="form-control" placeholder="Inserta el texto de tu anuncio"
+                                id="exampleFormControlTextarea1" rows="4"></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label for="exampleFormControlTextarea1">Recomendación</label>
+                            <textarea class="form-control"
+                                placeholder="Inserta las recomendaciones que puedas tener para los locutores"
+                                id="exampleFormControlTextarea1" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-5 mb-lg-5">
+                    <div class="col-lg-4 col-sm-6">
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <button type="submit" name="addConc" class="btn btn-primary">Añadir concurso</button>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+
+
+
+</main>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
