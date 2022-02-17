@@ -14,13 +14,13 @@ from jinja2              import TemplateNotFound
 
 # App modules
 from app        import app, lm, db, bc
-from app.models import Users
+from app.models import Users,UsuarioAdmin
 from app.forms  import LoginForm, RegisterForm
 
 # provide login manager with load_user callback
 @lm.user_loader
 def load_user(user_id):
-    return Users.query.get(int(user_id))
+    return UsuarioAdmin.query.get(int(user_id))
 
 # Logout user
 @app.route('/logout.html')
@@ -46,24 +46,24 @@ def register():
     if form.validate_on_submit():
 
         # assign form data to variables
-        username = request.form.get('username', '', type=str)
+        name = request.form.get('name', '', type=str)
+        lastname = request.form.get('lastname','',type=str)
         password = request.form.get('password', '', type=str) 
         email    = request.form.get('email'   , '', type=str) 
 
-        # filter User out of database through username
-        user = Users.query.filter_by(user=username).first()
+
 
         # filter User out of database through username
-        user_by_email = Users.query.filter_by(email=email).first()
+        user_by_email = UsuarioAdmin.query.filter_by(email=email).first()
 
-        if user or user_by_email:
-            msg = 'Error: User exists!'
+        if user_by_email:
+            msg = 'Error: Ya existe un usuario con este correo!'
         
         else:         
 
             pw_hash = bc.generate_password_hash(password)
 
-            user = Users(username, email, pw_hash)
+            user = UsuarioAdmin(email, pw_hash,name,lastname)
 
             user.save()
 
@@ -71,7 +71,7 @@ def register():
             success = True
 
     else:
-        msg = 'Input error'     
+        msg = 'Input error'  
 
     return render_template( 'accounts/register.html', form=form, msg=msg, success=success )
 
@@ -101,9 +101,9 @@ def login():
                 login_user(user)
                 return redirect(url_for('index'))
             else:
-                msg = "Wrong password. Please try again."
+                msg = "Contraseña incorrecta, intente de nuevo"
         else:
-            msg = "Unknown user"
+            msg = "Usuario desconocido"
 
     return render_template( 'accounts/login.html', form=form, msg=msg )
 
@@ -111,9 +111,6 @@ def login():
 @app.route('/', defaults={'path': 'index.html'})
 @app.route('/<path>')
 def index(path):
-
-    if not current_user.is_authenticated:
-        return redirect(url_for('login'))
 
     try:
 

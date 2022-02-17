@@ -12,22 +12,21 @@
         {% include 'includes/preloader.html' %}
 
         <!-- Section -->
-        <section class="min-vh-100 d-flex align-items-center section-image overlay-soft-dark" data-background="/static/assets/img/pages/form-image.jpg">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-12 d-flex align-items-center justify-content-center">
-                        <div class="signin-inner my-4 my-lg-0 bg-white shadow-soft border rounded border-gray-300 p-4 p-lg-5 w-100 fmxw-500">
+        <section class="min-vh-100 d-flex align-items-center section-image overlay-soft-dark"
+        data-background="/static/assets/img/pages/forms_image.jpg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 d-flex align-items-center justify-content-center">
+                    <div
+                        class="signin-inner my-4 my-lg-0 bg-white shadow-soft border rounded border-gray-300 p-4 p-lg-5 w-100 fmxw-500">
                             <div class="text-center text-md-center mb-4 mt-md-0">
-                                <h1 class="mb-0 h3">
-                                    <a href="https://appseed.us/apps/flask-apps/flask-pixel-bootstrap-uikit" target="_blank">Flask Pixel UI</a> - Login
-                                </h1>
-                                <br />
+                                <h1 class="mb-0 h3">Ingresa a tu cuenta</h1>
                                 <span class="font-weight-normal">
                                     {% if msg %}
-                                        {{ msg | safe }}
+                                    {{ msg | safe }}
                                     {% else %}
-                                        Add your credentials
-                                    {% endif %}                                  
+                                    Agrega tus credenciales
+                                    {% endif %}
                                 </span>
                             </div>
                             <form method="post" action="" class="mt-4">
@@ -36,7 +35,7 @@
 
                                 <!-- Form -->
                                 <div class="form-group mb-4">
-                                    <label for="email">Username</label>
+                                    <label for="email">Email</label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon1"><span class="fas fa-user"></span></span>
                                         {{ form.username(class="form-control") }}
@@ -57,14 +56,14 @@
                                         <div class="form-check mb-0">
                                             <input class="form-check-input" type="checkbox" value="" id="remember">
                                             <label class="form-check-label mb-0" for="remember">
-                                              Remember me
+                                              Recuerdame
                                             </label>
                                         </div>
-                                        <div><a href="{{ url_for('register') }}" class="text-right">Register</a></div>
+                                        <div><a href="{{ url_for('register') }}" class="text-right">Registrarme</a></div>
                                     </div>
                                 </div>
                                 <div class="d-grid">
-                                    <button type="submit" name="login" class="btn btn-primary">Sign in</button>
+                                    <button type="submit" name="login" class="btn btn-primary">Ingresar</button>
                                 </div>
                             </form>
 
