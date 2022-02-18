@@ -31,19 +31,23 @@
                         <div class="mb-5">
                             <div class="table-responsive-sm">
                                 <table class="table table-striped">
+                                    {% if datos %}
                                     <tr>
-                                        <th scope="col" id="name">Nombre</th>
-                                        <th scope="col" id="Initial date">Fecha de inicio</th>
-                                        <th scope="col" id="Final date">Fecha de fin</th>
-                                        <th scope="col" id="Payment">Pago</th>
-                                    {% for product in datos['products'] %}
-                                    <TR>
-                                    <TD  width="100px" >{{product['nombre']}}</TD>
-                                    <TD  width="300px" >{{product['fecha_inicio']}}</TD>
-                                    <TD  width="150px">{{product['fecha_fin']}}</TD>
-                                    <TD  width="150px">{{product['valor_pago']}}</TD>
-                                    <TD  width="300px">{{product['created_at']}}</TD>
-                                    </TR>
+                                        <th>Nombre</th>
+                                        <th>Fecha creación</th>
+                                        <th>Valor pago</th>
+                                        <th>ID</th>
+                                        <th>Fecha Inicio</th>
+                                        <th>Fecha Fin</th>
+                                    </tr>
+                                    {% endif %}
+                                  
+                                    <!-- table rows -->
+                                    {% for dict_item in datos %}
+                                    <tr>
+                                       {% for value in dict_item.values() %}
+                                       <td> {{ value }} </td>
+                                       {% endfor %}
                                     </tr>
                                     {% endfor %}
                                 </table>

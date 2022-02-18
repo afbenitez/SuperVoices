@@ -20,6 +20,7 @@ class Concurso_Schema(ma.Schema):
 concurso_schema = Concurso_Schema()
 concursos_schema = Concurso_Schema(many=True)
 
+
 # Schema Voz
 class Voz_Schema(ma.Schema):
 

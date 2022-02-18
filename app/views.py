@@ -148,9 +148,15 @@ def sitemap():
 
 def traerConcursos():
     concursos = Concurso.query.all()
-    print('!!!!!!!!!!!!!!!!!!!!!!!!CONC',concursos)
-    print('!!!!!!!!!!!!!!!!!!!!', concursos_schema.dump(concursos))
-    return concursos_schema.dump(concursos)
+    objtemp = concursos_schema.dump(concursos)
+    for s in objtemp:
+        s.pop("url_imagen", None)
+        s.pop("url_concurso", None)
+        s.pop("guion_voz", None)
+        s.pop("recomendaciones", None)
+        s.pop("email_admin", None)
+
+    return objtemp
 
 @app.route('/concAdm.html')
 @app.route('/')
