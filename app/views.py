@@ -6,18 +6,19 @@ Copyright (c) 2019 - present AppSeed.us
 # Python modules
 import os, logging 
 import json
-
+from datetime import datetime
 
 # Flask modules
 from flask               import render_template, request, url_for, redirect, send_from_directory,jsonify
 from flask_login         import login_user, logout_user, current_user, login_required
 from werkzeug.exceptions import HTTPException, NotFound, abort
 from jinja2              import TemplateNotFound
+from werkzeug.utils import secure_filename
 
 # App modules
 from app        import app, lm, db, bc
-from app.models import Concurso, Users,UsuarioAdmin
-from app.forms  import LoginForm, RegisterForm
+from app.models import Concurso, Users,UsuarioAdmin, Voz
+from app.forms  import LoginForm, RegisterForm, createConcursoForm, createVozForm
 
 # App schemas
 
@@ -114,6 +115,94 @@ def login():
             msg = "Usuario desconocido"
 
     return render_template( 'accounts/login.html', form=form, msg=msg )
+
+# Register a new contest
+@app.route('/cConcurso.html', methods=['GET', 'POST'])
+def cConcurso():
+    
+    # declare the Registration Form
+    form = createConcursoForm(request.form)
+
+    msg     = None
+    success = False
+
+    if request.method == 'GET': 
+
+        return render_template( 'home/cConcurso.html', form=form, msg=msg )
+
+    # check if both http method is POST and form is valid on submit
+    if form.validate_on_submit():
+
+        # assign form data to variables
+        name = request.form.get('name', '', type=str)
+        lastname = request.form.get('lastname','',type=str)
+        password = request.form.get('password', '', type=str) 
+        email    = request.form.get('email'   , '', type=str) 
+
+
+
+        # filter User out of database through username
+        user_by_email = UsuarioAdmin.query.filter_by(email=email).first()
+
+        if user_by_email:
+            msg = 'Error: Ya existe un usuario con este correo!'
+        
+        else:
+ 
+            pw_hash = bc.generate_password_hash(password)
+
+            user = UsuarioAdmin(email, pw_hash,name,lastname)
+
+            user.save()
+
+            msg     = 'Usuario creado exitosamente'     
+            success = True
+
+    else:
+        msg=''
+ 
+    return render_template( 'home/cConcurso.html', form=form, msg=msg, success=success )
+
+# Form to load user voice
+@app.route('/concursos/<urlConcurso>/ingresarVoz')
+def ingresarVoz(urlConcurso):
+        concurso = Concurso.query.filter_by(url_concurso=urlConcurso).first()
+        if concurso:
+            # declare the Registration Form
+                form = createVozForm(request.form)
+
+                msg     = None
+                success = False
+
+                if request.method == 'GET': 
+
+                    return render_template( 'home/cVoices.html', form=form, msg=msg )
+
+                # check if both http method is POST and form is valid on submit
+                if form.validate_on_submit():
+
+                    # assign form data to variables
+                    name = request.form.get('name', '', type=str)
+                    lastname = request.form.get('lastname','',type=str)
+                    email    = request.form.get('email'   , '', type=str)
+                    observaciones = request.form.get('observaciones',' ',type=str)
+                    filename = secure_filename(form.file.data.filename)
+
+            
+                    voz = Voz(email=email, nombre=name,apellido=lastname,observaviones=observaciones,fecha_creacion=datetime.now(),procesado=0)
+                    
+                    #voz.save(concurso,file)
+                    #crearVozUsuario(concurso,file,voz)
+                    msg     = 'Usuario creado exitosamente'     
+                    success = True
+
+                else:
+                    msg=''
+            
+                return render_template( 'home/cVoices.html', form=form, msg=msg, success=success )
+        else:
+                return render_template('home/page-404.html'), 404
+
 
 # App main route + generic routing
 @app.route('/', defaults={'path': 'index.html'})

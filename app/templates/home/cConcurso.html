@@ -29,17 +29,17 @@
                 <div class="row mb-4 mb-lg-5">
                     <div class="col-lg-4 col-sm-6">
                         <div class="mb-4">
-                            <label for="nombreConcurso">Nombre</label>
-                            <input type="text" class="form-control" id="nombreConcurso" required>
+                            {{ form.name.label() }}
+                            {{ form.name(class="form-control") }}
                         </div>
                         <div class="mb-4">
-                            <label for="fecIniConc">Fecha de inicio</label>
+                            {{ form.fecha_inicio.label() }}
                             <div class="form-group">
                                 <div class="input-group input-group-border">
                                     <span class="input-group-text" id="basic-addonDate2"><span
                                             class="fas far fa-calendar-alt"></span></span>
-                                    <input class="form-control" data-datepicker="" id="fecIniConc"
-                                        placeholder="Start date" type="text">
+                                    {{ form.fecha_inicio(class='form-control',placeholder='MM/DD/YYYY') }}
+                                    {{form.hidden_tag()}}
                                 </div>
                             </div>
                         </div>
@@ -56,11 +56,13 @@
                         </div>
                     </div>
                     <div class="col-lg-4 col-sm-6">
-                        <div class="mb-4">
-                            <label for="URLConcurso">URL Deseada</label>
-                            <input type="url" class="form-control" id="URLConcurso">
+                        <div class="form-group mb-4">
+                            <label for="email">URL Deseada</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1"><span class="fas fa-mail-bulk"></span></span>
+                                {{ form.url_concurso(class="form-control") }}
+                            </div>  
                         </div>
-
                         <div class="mb-4">
                             <label for="pago">Pago al ganador</label>
                             <input type="text" name="pago" id="pago" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"

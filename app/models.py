@@ -62,6 +62,23 @@ class Voz(db.Model):
 	observaciones = db.Column(db.String(1000))
 	concurso_id = db.Column(db.Integer, db.ForeignKey('concurso.id'))
 
+	
+	def __init__(self,email,nombre,apellido,fecha_creacion,procesado,observaciones):
+		self.email=email
+		self.nombre=nombre
+		self.apellido=apellido
+		self.fecha_creacion=fecha_creacion
+		self.procesado=procesado
+		self.observaciones=observaciones
+
+
+	def save(self,concurso,file):
+		# inject self into db session    
+		db.session.add ( self )
+		# commit change and save the object
+		db.session.commit( )
+		return self 
+
 class Users(db.Model, UserMixin):
 
     __tablename__ = 'Users'

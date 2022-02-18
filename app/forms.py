@@ -22,11 +22,18 @@ class RegisterForm(FlaskForm):
 	passwordConf = PasswordField(u'passwordConf', validators=[DataRequired()])
 
 class createConcursoForm(FlaskForm):
+	name        = StringField  (u'Nombre', validators=[DataRequired()])
+	url_concurso    = StringField  (u'URL para el concurso')
+	url_imagen = FileField(u'Imagen', validators=[Regexp(u'^[^/\\\\]\.jpg$')])
+	fecha_inicio = DateTimeField(u'Fecha Inicio',id="fecha_inicio" ,format='%m/%d/%y', validators=[DataRequired()])
+	fecha_fin = DateTimeField(u'Fecha Fin', format='%m/%d/%y',validators=[DataRequired()])
+	valor_pago = DecimalField(u'Valor a pagar', validators=[DataRequired()])
+	guion_voz = TextAreaField(u'Guión', validators=[DataRequired()])
+	recomendaciones = TextAreaField(u'Recomendaciones')
+
+class createVozForm(FlaskForm):
 	name        = StringField  (u'name', validators=[DataRequired()])
-	url_concurso    = StringField  (u'url_concurso')
-	url_imagen = FileField(u'url_imagen', validators=[Regexp(u'^[^/\\\\]\.jpg$')])
-	fecha_inicio = DateTimeField(u'fecha_inicio', format='%m/%d/%y', validators=[DataRequired()])
-	fecha_fin = DateTimeField(u'fecha_fin', format='%m/%d/%y',validators=[DataRequired()])
-	valor_pago = DecimalField(u'valor_pago', validators=[DataRequired()])
-	guion_voz = TextAreaField(u'guion_voz', validators=[DataRequired()])
-	recomendaciones = TextAreaField(u'recomendaciones')
+	lastname    = StringField  (u'lastname', validators=[DataRequired()])
+	email       = StringField  (u'email' , validators=[DataRequired(), Email(message='El correo no tiene el formato adecuado')])
+	url_voz = FileField(u'Imagen', validators=[Regexp(u'^[^/\\\\]\.jpg$')])
+	observaciones = TextAreaField(u'Observaciones', validators=[DataRequired()])

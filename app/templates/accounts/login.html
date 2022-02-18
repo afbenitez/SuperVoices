@@ -32,6 +32,11 @@
                             <form method="post" action="" class="mt-4">
 
                                 {{ form.hidden_tag() }}
+                                {% for field, errors in form.errors.items() %}
+                                <small class="form-text text-muted ">
+                                    {{ ', '.join(errors) }}
+                                </small>
+                                {% endfor %}
 
                                 <!-- Form -->
                                 <div class="form-group mb-4">
