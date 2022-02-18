@@ -204,9 +204,9 @@ def ingresarVoz(urlConcurso):
             else:
                 msg=''
             
-            return render_template( 'home/cVoices.html', form=form,msg=msg, success=success )
+            return render_template( 'home/vozCargada.html' )
         else:
-                return render_template('home/page-404.html'), 404
+            return render_template('home/page-404.html'), 404
 
 def crearVozUsuario(concurso,file,voz):
 	filename = secure_filename(file.filename)
