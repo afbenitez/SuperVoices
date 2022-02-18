@@ -40,7 +40,6 @@ def register():
     
     # declare the Registration Form
     form = RegisterForm(request.form)
-    print(request.form,'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!RequestForm')
 
     msg     = None
     success = False
@@ -67,23 +66,19 @@ def register():
             msg = 'Error: Ya existe un usuario con este correo!'
         
         else:
-            print('!!!!!!!!!!!!!!!!!!!!!!!!!!! NAME',name)  
-            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!  LASTNAME',lastname)  
-            print('!!!!!!!!!!!!!!!!!!!!!!!!!!! EMAIL',email)  
-            print('!!!!!!!!!!!!!!!!!!!!!!!!!!! PASSWORD',password)       
-
+ 
             pw_hash = bc.generate_password_hash(password)
 
             user = UsuarioAdmin(email, pw_hash,name,lastname)
 
             user.save()
 
-            msg     = 'User created successfully.'     
+            msg     = 'Usuario creado exitosamente'     
             success = True
 
     else:
-        msg = 'Input error'  
-
+        msg=''
+ 
     return render_template( 'accounts/register.html', form=form, msg=msg, success=success )
 
 # Authenticate user
@@ -112,7 +107,7 @@ def login():
             
             if bc.check_password_hash(user.password, password):
                 login_user(user)
-                return redirect(url_for('index'))
+                return redirect(url_for('concAdm'))
             else:
                 msg = "Contraseña incorrecta, intente de nuevo"
         else:
@@ -147,9 +142,15 @@ def sitemap():
 
 
 def traerConcursos():
-    concursos = Concurso.query.all()
+    concursos = Concurso.query.filter_by(email_admin=current_user.email).all()
     objtemp = concursos_schema.dump(concursos)
     for s in objtemp:
+        s['ID']=s.pop('id')
+        s['Nombre']=s.pop('nombre')
+        s['Fecha de Inicio']=s.pop('fecha_inicio')
+        s['Fecha de Finalización']=s.pop('fecha_fin')
+        s['Fecha de Creación']=s.pop('fecha_creacion')
+        s['Valor pagado al ganador']=s.pop('valor_pago')
         s.pop("url_imagen", None)
         s.pop("url_concurso", None)
         s.pop("guion_voz", None)
@@ -159,8 +160,9 @@ def traerConcursos():
     return objtemp
 
 @app.route('/concAdm.html')
-@app.route('/')
-def prueba():
+def concAdm():
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
     return render_template('home/concAdm.html', datos=traerConcursos())
 
 

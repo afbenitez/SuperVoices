@@ -37,6 +37,11 @@
                         <form method="POST" action="" action="#">
 
                             {{ form.hidden_tag() }}
+                            {% for field, errors in form.errors.items() %}
+                            <small class="form-text text-muted ">
+                                {{ ', '.join(errors) }}
+                            </small>
+                            {% endfor %}
 
                             <!-- Form -->
                             <div class="form-group mb-4">
@@ -73,13 +78,11 @@
                                 <!-- End of Form -->
                                 <!-- Form -->
                                 <div class="form-group mb-4">
-                                    <label for="password_confirm">Confirme su contraseña</label>
+                                    <label for="passwordConf">Confirme la contraseña</label>
                                     <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon5"><span
-                                                class="fas fa-unlock-alt"></span></span>
-                                        <input type="password" placeholder="Confirm Password" class="form-control"
-                                            id="password_confirm" required>
-                                    </div>
+                                        <span class="input-group-text" id="basic-addon4"><span class="fas fa-unlock-alt"></span></span>
+                                        {{ form.passwordConf(class="form-control", type="password") }}
+                                    </div>  
                                 </div>
                                 <!-- End of Form -->
 

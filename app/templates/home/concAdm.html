@@ -33,12 +33,9 @@
                                 <table class="table table-striped">
                                     {% if datos %}
                                     <tr>
-                                        <th>Nombre</th>
-                                        <th>Fecha creación</th>
-                                        <th>Valor pago</th>
-                                        <th>ID</th>
-                                        <th>Fecha Inicio</th>
-                                        <th>Fecha Fin</th>
+                                       {% for key in datos[0] %}
+                                       <th> {{ key }} </th>
+                                       {% endfor %}
                                     </tr>
                                     {% endif %}
                                   
