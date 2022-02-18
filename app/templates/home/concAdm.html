@@ -32,10 +32,10 @@
                             <div class="table-responsive-sm">
                                 <table class="table table-striped">
                                     <tr>
-                                        <th scope="col" id="class2">Nombre</th>
-                                        <th scope="col" id="teacher2">Fecha de inicio</th>
-                                        <th scope="col" id="males2">Fecha de fin</th>
-                                        <th scope="col" id="females2">Pago</th>
+                                        <th scope="col" id="name">Nombre</th>
+                                        <th scope="col" id="Initial date">Fecha de inicio</th>
+                                        <th scope="col" id="Final date">Fecha de fin</th>
+                                        <th scope="col" id="Payment">Pago</th>
                                     </tr>
                                 </table>
                             </div>
@@ -44,6 +44,14 @@
                 </div>
             </div>
         </div>
+        {% for mainkey in data %}
+        <h1>{{ mainkey }}</h1>
+    
+        {% for key, value in data[mainkey].iteritems() %}
+        <p><strong>{{ key }}</strong><span>{{ value }}</span></p>
+        {% endfor %}
+    
+        {% endfor %}
 
     </main>
 

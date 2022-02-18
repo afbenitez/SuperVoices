@@ -6,6 +6,9 @@ Copyright (c) 2019 - present AppSeed.us
 from app         import db
 from flask_login import UserMixin
 
+
+
+
 class UsuarioAdmin(db.Model,UserMixin):
 	__tablename__ = 'usuarioadmin'
 	id = db.Column(db.Integer, primary_key=True)
@@ -18,7 +21,7 @@ class UsuarioAdmin(db.Model,UserMixin):
 		self.email=email
 		self.password=password
 		self.nombre=nombre
-		self.apellido
+		self.apellido=apellido
 
 	def __repr__(self):
 		return str(self.id)+'-'+str(self.email)

@@ -5,17 +5,23 @@ Copyright (c) 2019 - present AppSeed.us
 
 # Python modules
 import os, logging 
+import json
+
 
 # Flask modules
-from flask               import render_template, request, url_for, redirect, send_from_directory
+from flask               import render_template, request, url_for, redirect, send_from_directory,jsonify
 from flask_login         import login_user, logout_user, current_user, login_required
 from werkzeug.exceptions import HTTPException, NotFound, abort
 from jinja2              import TemplateNotFound
 
 # App modules
 from app        import app, lm, db, bc
-from app.models import Users,UsuarioAdmin
+from app.models import Concurso, Users,UsuarioAdmin
 from app.forms  import LoginForm, RegisterForm
+
+# App schemas
+
+from app.schemas import concurso_schema,concursos_schema,voces_schema,voz_schema,usuario_schema,usuarios_schema
 
 # provide login manager with load_user callback
 @lm.user_loader
@@ -34,6 +40,7 @@ def register():
     
     # declare the Registration Form
     form = RegisterForm(request.form)
+    print(request.form,'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!RequestForm')
 
     msg     = None
     success = False
@@ -59,7 +66,11 @@ def register():
         if user_by_email:
             msg = 'Error: Ya existe un usuario con este correo!'
         
-        else:         
+        else:
+            print('!!!!!!!!!!!!!!!!!!!!!!!!!!! NAME',name)  
+            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!  LASTNAME',lastname)  
+            print('!!!!!!!!!!!!!!!!!!!!!!!!!!! EMAIL',email)  
+            print('!!!!!!!!!!!!!!!!!!!!!!!!!!! PASSWORD',password)       
 
             pw_hash = bc.generate_password_hash(password)
 
@@ -89,11 +100,13 @@ def login():
     if form.validate_on_submit():
 
         # assign form data to variables
+ 
+
         username = request.form.get('username', '', type=str)
         password = request.form.get('password', '', type=str) 
 
         # filter User out of database through username
-        user = Users.query.filter_by(user=username).first()
+        user = UsuarioAdmin.query.filter_by(email=username).first()
 
         if user:
             
@@ -130,3 +143,39 @@ def index(path):
 @app.route('/sitemap.xml')
 def sitemap():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'sitemap.xml')
+
+data = {
+  "data": [
+    {
+      "id": "1",
+      "name": "Tiger Nixon",
+      "position": "System Architect",
+      "salary": "$320,800",
+      "start_date": "2011/04/25",
+      "office": "Edinburgh",
+      "extn": "5421"
+    },
+    {
+      "id": "2",
+      "name": "Garrett Winters",
+      "position": "Accountant",
+      "salary": "$170,750",
+      "start_date": "2011/07/25",
+      "office": "Tokyo",
+      "extn": "8422"
+    }]
+}
+
+def traerConcursos():
+    concursos = Concurso.query.all()
+    return concurso_schema.dump(concursos)
+
+@app.route('/concAdm.html')
+@app.route('/')
+def prueba():
+    data1=json.loads(traerConcursos())
+    return render_template('home/concAdm.html', datos=data)
+
+
+
+
