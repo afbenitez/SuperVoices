@@ -190,7 +190,7 @@ def ingresarVoz(urlConcurso):
                 email    = request.form.get('email'   , '', type=str)
                 observaciones = request.form.get('observaciones',' ',type=str)
                 print("request.files")
-                files=request.files['profile']
+                file=request.files['profile']
                 print(request.files['profile'])
 
 
