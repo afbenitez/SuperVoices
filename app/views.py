@@ -132,32 +132,41 @@ def cConcurso():
         return render_template( 'home/cConcurso.html', form=form, msg=msg )
 
     # check if both http method is POST and form is valid on submit
-    if form.validate_on_submit():
+    if request.method == 'POST':
 
         # assign form data to variables
         name = request.form.get('name', '', type=str)
-        lastname = request.form.get('lastname','',type=str)
-        password = request.form.get('password', '', type=str) 
-        email    = request.form.get('email'   , '', type=str) 
+        url_concurso = request.form.get('url_concurso','',type=str)
+        fecha_inicio = request.form.get('fecha_inicio', '') 
+        fecha_fin    = request.form.get('fecha_fin'   , '')
+        valor_pago    = request.form.get('valor_pago'   , '')
+        guion_voz    = request.form.get('guion_voz'   , '')
+        recomendaciones    = request.form.get('recomendaciones'   , '')
+        # format
+        format = '%Y/%m/%d'
+        print(name,fecha_fin,fecha_inicio)
+    # convert from string format to datetime format
+        fecha_inicio = datetime.strptime(fecha_inicio, format)
+        fecha_fin = datetime.strptime(fecha_fin, format)
+        print(type(fecha_inicio))
+        
 
 
 
         # filter User out of database through username
-        user_by_email = UsuarioAdmin.query.filter_by(email=email).first()
+        #user_by_email = Concurso.query.filter_by(email=email).first()
 
-        if user_by_email:
-            msg = 'Error: Ya existe un usuario con este correo!'
+        #if user_by_email:
+        #    msg = 'Error: Ya existe un usuario con este correo!'
         
-        else:
  
-            pw_hash = bc.generate_password_hash(password)
+        user = Concurso(nombre=name,url_concurso=url_concurso,fecha_inicio=fecha_inicio,fecha_fin=fecha_fin,valor_pago=valor_pago,guion_voz=guion_voz,recomendaciones=recomendaciones,email_admin=current_user.email,fecha_creacion=datetime.now())
+        db.session.add(user)
+        db.session.commit()
+        print('!!!!!!',user.nombre,user.email_admin,user.fecha_creacion,user.fecha_fin,user.fecha_inicio,user.guion_voz)
 
-            user = UsuarioAdmin(email, pw_hash,name,lastname)
-
-            user.save()
-
-            msg     = 'Usuario creado exitosamente'     
-            success = True
+        msg     = 'Usuario creado exitosamente'     
+        success = True
 
     else:
         msg=''

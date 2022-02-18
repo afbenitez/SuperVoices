@@ -48,6 +48,18 @@ class Concurso(db.Model):
 	recomendaciones = db.Column(db.String(1000))
 	email_admin = db.Column(db.String(100))
 	voces = db.relationship('Voz', backref='concurso',lazy='dynamic')
+		
+	def __init__(self,nombre,url_concurso,fecha_inicio,fecha_fin,fecha_creacion,valor_pago,guion_voz,recomendaciones,email_admin):
+		self.nombre=nombre
+		self.url_concurso=url_concurso
+		self.fecha_inicio=fecha_inicio
+		self.fecha_fin=fecha_fin
+		self.fecha_creacion=fecha_creacion
+		self.valor_pago=valor_pago
+		self.guion_voz=guion_voz
+		self.recomendaciones=recomendaciones
+		self.email_admin=email_admin
+
 
 class Voz(db.Model):
 	__tablename__ = 'voz'

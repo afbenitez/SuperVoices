@@ -22,7 +22,7 @@
         </div>
     </div>
     <!-- End of Hero -->
-    <form method="POST" action="" action="#">
+    <form method="POST" action="" action="#" enctype=multipart/form-data>
         <!-- Section -->
         <div class="section section-md pt-4">
             <div class="container">
@@ -38,20 +38,18 @@
                                 <div class="input-group input-group-border">
                                     <span class="input-group-text" id="basic-addonDate2"><span
                                             class="fas far fa-calendar-alt"></span></span>
-                                    {{ form.fecha_inicio(class='form-control',placeholder='MM/DD/YYYY') }}
-                                    {{form.hidden_tag()}}
-                                </div>
+                                    {{ form.fecha_inicio(class='form-control',placeholder='YYYY/MM/DD') }}
+                                    </div>
                             </div>
                         </div>
                         <div class="mb-4">
+                            {{ form.fecha_fin.label() }}
                             <div class="form-group">
-                                <label for="fecFinConc">Fecha de finalización</label>
                                 <div class="input-group input-group-border">
-                                    <span class="input-group-text" id="basic-addonDate3"><span
+                                    <span class="input-group-text" id="basic-addonDate2"><span
                                             class="fas far fa-calendar-alt"></span></span>
-                                    <input class="form-control" data-datepicker="" id="fecFinConc"
-                                        placeholder="End date" type="text">
-                                </div>
+                                    {{ form.fecha_fin(class='form-control',placeholder='YYYY/MM/DD') }}
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -65,25 +63,30 @@
                         </div>
                         <div class="mb-4">
                             <label for="pago">Pago al ganador</label>
-                            <input type="text" name="pago" id="pago" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
-                                class="form-control" value="" data-type="currency" placeholder="$1,000,000.00">
+                            {{ form.valor_pago(class="form-control") }}
                         </div>
                         <div class="mb-4">
-                            <label for="currency-field">Imagen del concurso</label>
-                            <input type="file" name="imgConc" id="currency-field">
+                            <label for="voz">Sube una imagen para tu concurso</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1"><span class="fas fa-file-archive"></span></span>
+                                {{ form.url_imagen(class="form-control") }}                              
+                            </div>  
                         </div>
                     </div>
                     <div class="col-lg-4 col-sm-6">
                         <div class="mb-4">
                             <label for="exampleFormControlTextarea1">Guión</label>
-                            <textarea class="form-control" placeholder="Inserta el texto de tu anuncio"
-                                id="exampleFormControlTextarea1" rows="4"></textarea>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1"><span class="fas fa-notes-medical"></span></span>
+                                {{ form.guion_voz(class="form-control") }}
+                            </div> 
                         </div>
                         <div class="mb-4">
-                            <label for="exampleFormControlTextarea1">Recomendación</label>
-                            <textarea class="form-control"
-                                placeholder="Inserta las recomendaciones que puedas tener para los locutores"
-                                id="exampleFormControlTextarea1" rows="4"></textarea>
+                            <label for="exampleFormControlTextarea1">Recomendaciones</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1"><span class="fas fa-notes-medical"></span></span>
+                                {{ form.recomendaciones(class="form-control") }}
+                            </div> 
                         </div>
                     </div>
                 </div>
