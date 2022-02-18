@@ -7,6 +7,7 @@ Copyright (c) 2019 - present AppSeed.us
 import os, logging 
 import json
 from datetime import datetime
+from werkzeug.datastructures import CombinedMultiDict
 
 # Flask modules
 from flask               import render_template, request, url_for, redirect, send_from_directory,jsonify
@@ -164,42 +165,51 @@ def cConcurso():
     return render_template( 'home/cConcurso.html', form=form, msg=msg, success=success )
 
 # Form to load user voice
-@app.route('/concursos/<urlConcurso>/ingresarVoz')
+@app.route('/concursos/<urlConcurso>/ingresarVoz', methods=['GET', 'POST'])
 def ingresarVoz(urlConcurso):
         concurso = Concurso.query.filter_by(url_concurso=urlConcurso).first()
         if concurso:
             # declare the Registration Form
-                form = createVozForm(request.form)
+        
+            form = createVozForm(request.form)
 
-                msg     = None
-                success = False
 
-                if request.method == 'GET': 
+            msg     = None
+            success = False
 
-                    return render_template( 'home/cVoices.html', form=form, msg=msg )
+
+            if request.method == 'GET': 
+
+                return render_template( 'home/cVoices.html', form=form, msg=msg )
 
                 # check if both http method is POST and form is valid on submit
-                if form.validate_on_submit():
+            if request.method == 'POST': 
+                # assign form data to variables
+                name = request.form.get('name', '', type=str)
+                lastname = request.form.get('lastname','',type=str)
+                email    = request.form.get('email'   , '', type=str)
+                observaciones = request.form.get('observaciones',' ',type=str)
+                print("request.files")
+                files=request.files['profile']
+                print(request.files['profile'])
 
-                    # assign form data to variables
-                    name = request.form.get('name', '', type=str)
-                    lastname = request.form.get('lastname','',type=str)
-                    email    = request.form.get('email'   , '', type=str)
-                    observaciones = request.form.get('observaciones',' ',type=str)
-                    filename = secure_filename(form.file.data.filename)
+
 
             
-                    voz = Voz(email=email, nombre=name,apellido=lastname,observaviones=observaciones,fecha_creacion=datetime.now(),procesado=0)
+                voz = Voz(email=email, nombre=name,apellido=lastname,observaciones=observaciones,fecha_creacion=datetime.now(),procesado=0)
                     
+                print(voz.email,voz.nombre, voz.apellido,voz.observaciones,voz.fecha_creacion,voz.procesado,'!!!!!!!')
+
+
                     #voz.save(concurso,file)
                     #crearVozUsuario(concurso,file,voz)
-                    msg     = 'Usuario creado exitosamente'     
-                    success = True
+                msg     = 'Usuario creado exitosamente'     
+                success = True
 
-                else:
-                    msg=''
+            else:
+                msg=''
             
-                return render_template( 'home/cVoices.html', form=form, msg=msg, success=success )
+            return render_template( 'home/cVoices.html', form=form,msg=msg, success=success )
         else:
                 return render_template('home/page-404.html'), 404
 

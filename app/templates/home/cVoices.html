@@ -22,7 +22,15 @@
         </div>
     </div>
     <!-- End of Hero -->
-    <form method="POST" action="" action="#">
+    <form method="POST" action="" action="#" enctype=multipart/form-data>
+
+        {{ form.csrf_token }}
+        {{ form.hidden_tag() }}
+        {% for field, errors in form.errors.items() %}
+        <small class="form-text text-muted ">
+            {{ ', '.join(errors) }}
+        </small>
+        {% endfor %}
         <!-- Section -->
         <div class="section section-md pt-4">
             <div class="container">
@@ -48,12 +56,12 @@
                                 {{ form.email(class="form-control") }}
                             </div>  
                         </div>
-                        <div class="mb-4">
-                            <label for="email">Archivo de voz</label>
+                        <div class="col-sm-6 form-group">
+                            <label>Profile Image</label>
                             <div class="input-group">
-                                <span class="input-group-text" id="basic-addon1"><span class="fas fa-file-archive"></span></span>
-                                {{ form.url_voz(class="form-control") }}
-                            </div> 
+                                {{ form.profile(class="form-control-file") }}                              
+                            </div>  
+                            
                         </div>
                         <div class="mb-4">
                             <label for="email">Observaciones</label>
