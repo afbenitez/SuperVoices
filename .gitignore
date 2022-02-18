@@ -1,4 +1,7 @@
 flask/
+app/static/Archivos_Convertidos/
+app/static/Archivos_Originales/
+voices_project/
 *.pyc
 dev
 node_modules

@@ -193,17 +193,12 @@ def ingresarVoz(urlConcurso):
                 file=request.files['profile']
                 print(request.files['profile'])
 
-
-
-            
                 voz = Voz(email=email, nombre=name,apellido=lastname,observaciones=observaciones,fecha_creacion=datetime.now(),procesado=0)
-                    
                 print(voz.email,voz.nombre, voz.apellido,voz.observaciones,voz.fecha_creacion,voz.procesado,'!!!!!!!')
-
-
-                    #voz.save(concurso,file)
-                    #crearVozUsuario(concurso,file,voz)
-                msg     = 'Usuario creado exitosamente'     
+		#crearVozUsuario(concurso,file,voz)
+		#voz.save(concurso,file)
+                crearVozUsuario(concurso,file,voz)
+                msg     = 'Usuario creado exitosamente'
                 success = True
 
             else:
@@ -213,6 +208,15 @@ def ingresarVoz(urlConcurso):
         else:
                 return render_template('home/page-404.html'), 404
 
+def crearVozUsuario(concurso,file,voz):
+	filename = secure_filename(file.filename)
+	file_url = os.path.join(app.root_path,'static/Archivos_Originales', filename)
+	file.save(file_url)
+	# Guardar voz
+	voz.url_voz_original = file_url
+	concurso.voces.append(voz)
+	db.session.add(concurso)
+	db.session.commit()
 
 # App main route + generic routing
 @app.route('/', defaults={'path': 'index.html'})
