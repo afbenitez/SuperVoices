@@ -144,37 +144,18 @@ def index(path):
 def sitemap():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'sitemap.xml')
 
-data = {
-  "data": [
-    {
-      "id": "1",
-      "name": "Tiger Nixon",
-      "position": "System Architect",
-      "salary": "$320,800",
-      "start_date": "2011/04/25",
-      "office": "Edinburgh",
-      "extn": "5421"
-    },
-    {
-      "id": "2",
-      "name": "Garrett Winters",
-      "position": "Accountant",
-      "salary": "$170,750",
-      "start_date": "2011/07/25",
-      "office": "Tokyo",
-      "extn": "8422"
-    }]
-}
+
 
 def traerConcursos():
     concursos = Concurso.query.all()
-    return concurso_schema.dump(concursos)
+    print('!!!!!!!!!!!!!!!!!!!!!!!!CONC',concursos)
+    print('!!!!!!!!!!!!!!!!!!!!', concursos_schema.dump(concursos))
+    return concursos_schema.dump(concursos)
 
 @app.route('/concAdm.html')
 @app.route('/')
 def prueba():
-    data1=json.loads(traerConcursos())
-    return render_template('home/concAdm.html', datos=data)
+    return render_template('home/concAdm.html', datos=traerConcursos())
 
 
 

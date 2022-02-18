@@ -36,7 +36,16 @@
                                         <th scope="col" id="Initial date">Fecha de inicio</th>
                                         <th scope="col" id="Final date">Fecha de fin</th>
                                         <th scope="col" id="Payment">Pago</th>
+                                    {% for product in datos['products'] %}
+                                    <TR>
+                                    <TD  width="100px" >{{product['nombre']}}</TD>
+                                    <TD  width="300px" >{{product['fecha_inicio']}}</TD>
+                                    <TD  width="150px">{{product['fecha_fin']}}</TD>
+                                    <TD  width="150px">{{product['valor_pago']}}</TD>
+                                    <TD  width="300px">{{product['created_at']}}</TD>
+                                    </TR>
                                     </tr>
+                                    {% endfor %}
                                 </table>
                             </div>
                         </div>
