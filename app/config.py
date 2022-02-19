@@ -14,5 +14,5 @@ class Config():
     SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_007')
 
     # This will create a file in <app> FOLDER
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://kevin:A$QLPa55wordForK@172.24.41.201/VoicesProject'
+    SQLALCHEMY_DATABASE_URI = ''
     SQLALCHEMY_TRACK_MODIFICATIONS = False
