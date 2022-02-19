@@ -7,6 +7,7 @@ Copyright (c) 2019 - present AppSeed.us
 import os, logging 
 import json
 from datetime import datetime
+from sqlalchemy import false, true
 from werkzeug.datastructures import CombinedMultiDict
 
 # Flask modules
@@ -219,7 +220,7 @@ def ingresarVoz(urlConcurso):
 
 def crearVozUsuario(concurso,file,voz):
 	filename = secure_filename(file.filename)
-	file_url = os.path.join(app.root_path,'static/Archivos_Originales', filename)
+	file_url = os.path.join(app.root_path,'static','Archivos_Originales' ,filename)
 	file.save(file_url)
 	# Guardar voz
 	voz.url_voz_original = file_url
@@ -251,8 +252,6 @@ def index(path):
 def sitemap():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'sitemap.xml')
 
-
-
 def traerConcursos():
     concursos = Concurso.query.filter_by(email_admin=current_user.email).all()
     objtemp = concursos_schema.dump(concursos)
@@ -277,6 +276,42 @@ def concAdm():
         return redirect(url_for('login'))
     return render_template('home/concAdm.html', datos=traerConcursos())
 
+# Form to load user voice
+@app.route('/concursos/<urlConcurso>', methods=['GET', 'POST'])
+def verVoces(urlConcurso):
+    concurso = Concurso.query.filter_by(url_concurso=urlConcurso).first()
+    if concurso:
+        if (not current_user.is_authenticated and current_user.email!=concurso.email_admin):
+            return render_template('home/listVoices.html', datos=traerVoces(0,concurso.id),concursoActual=concurso)
+        return render_template('home/listVoices.html', datos=traerVoces(1,concurso.id),concursoActual=concurso)
+        
 
+def traerVoces(b,cId):
+    voces = Voz.query.filter_by(concurso_id=cId).all()
+    objtemp = voces_schema.dump(voces)
+    if b:
+        for s in objtemp:
+            s['ID']=s.pop('id')
+            s['Email']=s.pop('email')
+            s['Nombre(s)']=s.pop('nombre')
+            s['Apellido(s)']=s.pop('apellido')
+            s['Procesado']=s.pop('procesado')
+            s['Fecha de Creación']=s.pop('fecha_creacion')
+            s['Voz Original']=s.pop('url_voz_original')
+            s['Voz procesada']=s.pop('url_voz_convertida')
+            s.pop("observaciones", None)
+            s.pop("concurso_id", None)
+    else:
+        for s in objtemp:
+            s['ID']=s.pop('id')
+            s['Voz procesada']=s.pop('url_voz_original')
+            s['Fecha de Creación']=s.pop('fecha_creacion')
+            s.pop("email", None)
+            s.pop("nombre", None)
+            s.pop("apellido", None)
+            s.pop("procesado", None)
+            s.pop("url_voz_original", None)
+            s.pop("observaciones", None)
+            s.pop("concurso_id", None)
 
-
+    return objtemp
