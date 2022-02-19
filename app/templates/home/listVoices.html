@@ -1,0 +1,71 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Concursos {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <main>
+        
+        {% include 'includes/preloader.html' %}
+
+        <!-- Hero -->
+        <div class="section-header pb-6 bg-primary text-white">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-8 text-center">
+                        <h1 class="display-3 mb-4">Concursos</h1>
+                        <p class="lead mb-5">A continuación puedes ver los concuros que has creado</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- End of Hero -->
+        <div class="section section-md">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="mb-5">
+                            <div class="table-responsive-sm">
+                                <table class="table table-striped">
+                                    {% if datos %}
+                                    <tr>
+                                       {% for key in datos[0] %}
+                                       <th> {{ key }} </th>
+                                       {% endfor %}
+                                    </tr>
+                                    {% endif %}
+                                  
+                                    <!-- table rows -->
+                                    {% for dict_item in datos %}
+                                    <tr>
+                                       {% for value in dict_item.values() %}
+                                       <td> {{ value }} </td>
+                                       {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% for mainkey in data %}
+        <h1>{{ mainkey }}</h1>
+    
+        {% for key, value in data[mainkey].iteritems() %}
+        <p><strong>{{ key }}</strong><span>{{ value }}</span></p>
+        {% endfor %}
+    
+        {% endfor %}
+
+    </main>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
