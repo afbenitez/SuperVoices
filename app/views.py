@@ -7,13 +7,12 @@ Copyright (c) 2019 - present AppSeed.us
 import os, logging 
 import json
 from datetime import datetime
-from sqlalchemy import false, true
+from sqlalchemy import desc, false, true
 from werkzeug.datastructures import CombinedMultiDict
 
 # Flask modules
-from flask               import render_template, request, url_for, redirect, send_from_directory,jsonify
-from flask_login         import login_user, logout_user, current_user, login_required
-from werkzeug.exceptions import HTTPException, NotFound, abort
+from flask               import render_template, request, url_for, redirect, send_from_directory,send_file
+from flask_login         import login_user, logout_user, current_user
 from jinja2              import TemplateNotFound
 from werkzeug.utils import secure_filename
 
@@ -281,30 +280,34 @@ def concAdm():
 def verVoces(urlConcurso):
     concurso = Concurso.query.filter_by(url_concurso=urlConcurso).first()
     if concurso:
-        if (not current_user.is_authenticated and current_user.email!=concurso.email_admin):
+        if (not current_user.is_authenticated):
+            return render_template('home/listVoices.html', datos=traerVoces(0,concurso.id),concursoActual=concurso)
+        elif (current_user.email!=concurso.email_admin):
             return render_template('home/listVoices.html', datos=traerVoces(0,concurso.id),concursoActual=concurso)
         return render_template('home/listVoices.html', datos=traerVoces(1,concurso.id),concursoActual=concurso)
         
 
 def traerVoces(b,cId):
-    voces = Voz.query.filter_by(concurso_id=cId).all()
-    objtemp = voces_schema.dump(voces)
     if b:
+        voces = Voz.query.filter_by(concurso_id=cId).order_by(desc(Voz.fecha_creacion)).all()
+        objtemp = voces_schema.dump(voces)
         for s in objtemp:
             s['ID']=s.pop('id')
             s['Email']=s.pop('email')
             s['Nombre(s)']=s.pop('nombre')
             s['Apellido(s)']=s.pop('apellido')
-            s['Procesado']=s.pop('procesado')
+            s['Estado']=s.pop('procesado')
             s['Fecha de Creación']=s.pop('fecha_creacion')
             s['Voz Original']=s.pop('url_voz_original')
             s['Voz procesada']=s.pop('url_voz_convertida')
             s.pop("observaciones", None)
             s.pop("concurso_id", None)
     else:
+        voces = Voz.query.filter_by(concurso_id=cId,procesado=1).order_by(desc(Voz.fecha_creacion)).all()
+        objtemp = voces_schema.dump(voces)
         for s in objtemp:
             s['ID']=s.pop('id')
-            s['Voz procesada']=s.pop('url_voz_original')
+            s['Voz procesada']=s.pop('url_voz_convertida')
             s['Fecha de Creación']=s.pop('fecha_creacion')
             s.pop("email", None)
             s.pop("nombre", None)
@@ -315,3 +318,7 @@ def traerVoces(b,cId):
             s.pop("concurso_id", None)
 
     return objtemp
+
+@app.route('/download/<filename>')
+def return_files_tut(filename):
+    return send_file(filename, as_attachment=True, attachment_filename='')
