@@ -51,10 +51,13 @@
                                     {% if key == 'Voz procesada' %}
                                     <td>
                                         {% if dict_item[key] %}
-                                        <button class="btn btn-sm btn-outline-primary" type="button">
-                                            <span class="me-1"><span class="fa fa-download"></span></span>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-success" type="button"><span class="me-1"><span class="fa fa-play"></span>{{ dict_item[key] }}</span></button>
+                                        <a href="{{ url_for('download', filename=dict_item[key]) }}">
+                                            <button class="btn btn-sm btn-outline-primary" type="button">
+                                                <span class="me-1"><span class="fa fa-download"></span></span>
+                                            </button></a>
+                                        <audio controls>
+                                            <source src={{dict_item[key]}}" type="file/mpeg">
+                                        </audio>
                                         {% endif %}
                                     </td>
                                     {% elif key == 'Voz Original' %}
