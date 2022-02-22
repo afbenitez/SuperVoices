@@ -39,7 +39,6 @@ def logout():
 # Register a new user
 @app.route('/register.html', methods=['GET', 'POST'])
 def register():
-    
     # declare the Registration Form
     form = RegisterForm(request.form)
 
@@ -59,8 +58,6 @@ def register():
         password = request.form.get('password', '', type=str) 
         email    = request.form.get('email'   , '', type=str) 
 
-
-
         # filter User out of database through username
         user_by_email = UsuarioAdmin.query.filter_by(email=email).first()
 
@@ -70,11 +67,8 @@ def register():
         else:
  
             pw_hash = bc.generate_password_hash(password)
-
             user = UsuarioAdmin(email, pw_hash,name,lastname)
-
             user.save()
-
             msg     = 'Usuario creado exitosamente'     
             success = True
 
@@ -97,8 +91,6 @@ def login():
     if form.validate_on_submit():
 
         # assign form data to variables
- 
-
         username = request.form.get('username', '', type=str)
         password = request.form.get('password', '', type=str) 
 
@@ -142,28 +134,13 @@ def cConcurso():
         valor_pago    = request.form.get('valor_pago'   , '')
         guion_voz    = request.form.get('guion_voz'   , '')
         recomendaciones    = request.form.get('recomendaciones'   , '')
-        # format
-        format = '%Y/%m/%d'
-        print(name,fecha_fin,fecha_inicio)
-    # convert from string format to datetime format
-        fecha_inicio = datetime.strptime(fecha_inicio, format)
-        fecha_fin = datetime.strptime(fecha_fin, format)
-        print(type(fecha_inicio))
-        
 
+        fecha_inicio = datetime.strptime(fecha_inicio,'%Y/%m/%d')
+        fecha_fin = datetime.strptime(fecha_fin,'%Y/%m/%d')
 
-
-        # filter User out of database through username
-        #user_by_email = Concurso.query.filter_by(email=email).first()
-
-        #if user_by_email:
-        #    msg = 'Error: Ya existe un usuario con este correo!'
-        
- 
         user = Concurso(nombre=name,url_concurso=url_concurso,fecha_inicio=fecha_inicio,fecha_fin=fecha_fin,valor_pago=valor_pago,guion_voz=guion_voz,recomendaciones=recomendaciones,email_admin=current_user.email,fecha_creacion=datetime.now())
         db.session.add(user)
         db.session.commit()
-        print('!!!!!!',user.nombre,user.email_admin,user.fecha_creacion,user.fecha_fin,user.fecha_inicio,user.guion_voz)
 
         msg     = 'Usuario creado exitosamente'     
         success = True
@@ -182,10 +159,8 @@ def ingresarVoz(urlConcurso):
         
             form = createVozForm(request.form)
 
-
             msg     = None
             success = False
-
 
             if request.method == 'GET': 
 
@@ -198,14 +173,10 @@ def ingresarVoz(urlConcurso):
                 lastname = request.form.get('lastname','',type=str)
                 email    = request.form.get('email'   , '', type=str)
                 observaciones = request.form.get('observaciones',' ',type=str)
-                print("request.files")
                 file=request.files['profile']
-                print(request.files['profile'])
 
                 voz = Voz(email=email, nombre=name,apellido=lastname,observaciones=observaciones,fecha_creacion=datetime.now(),procesado=0)
                 print(voz.email,voz.nombre, voz.apellido,voz.observaciones,voz.fecha_creacion,voz.procesado,'!!!!!!!')
-		#crearVozUsuario(concurso,file,voz)
-		#voz.save(concurso,file)
                 crearVozUsuario(concurso,file,voz)
                 msg     = 'Usuario creado exitosamente'
                 success = True
@@ -320,5 +291,5 @@ def traerVoces(b,cId):
     return objtemp
 
 @app.route('/download/<filename>')
-def return_files_tut(filename):
+def download(filename):
     return send_file(filename, as_attachment=True, attachment_filename='')

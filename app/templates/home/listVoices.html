@@ -50,14 +50,16 @@
                                     {% for key in dict_item %}
                                     {% if key == 'Voz procesada' %}
                                     <td>
+                                        {% if dict_item[key] %}
                                         <button class="btn btn-sm btn-outline-primary" type="button">
                                             <span class="me-1"><span class="fa fa-download"></span></span>
                                         </button>
-                                        <button class="btn btn-sm btn-outline-success" type="button"><span class="me-1"><span class="fa fa-play"></span></span></button>
+                                        <button class="btn btn-sm btn-outline-success" type="button"><span class="me-1"><span class="fa fa-play"></span>{{ dict_item[key] }}</span></button>
+                                        {% endif %}
                                     </td>
                                     {% elif key == 'Voz Original' %}
                                     <td>
-                                        <a href="/download/{{dict_item[key]}}">
+                                        <a href="{{ url_for('download', filename=dict_item[key]) }}">
                                             <button class="btn btn-sm btn-outline-primary" type="button">
                                                 <span class="me-1"><span class="fa fa-download"></span></span>
                                             </button></a>
