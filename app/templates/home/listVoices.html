@@ -1,4 +1,8 @@
-{% extends "layouts/base.html" %}
+{% if auth == 0 %}
+    {% extends "layouts/baseHomeConcNAuth.html" %}
+{% elif auth == 1 %}
+    {% extends "layouts/baseCRUDConc.html" %}
+{% endif %}
 
 {% block title %} Concursos {% endblock %}
 
