@@ -31,6 +31,16 @@ class createConcursoForm(FlaskForm):
 	guion_voz = TextAreaField(u'Guión', validators=[DataRequired()])
 	recomendaciones = TextAreaField(u'Recomendaciones')
 
+class updateConcursoForm(FlaskForm):
+	name        = StringField  (u'Nombre', validators=[DataRequired()])
+	url_concurso    = StringField  (u'URL para el concurso')
+	url_imagen = FileField(u'Imagen', validators=[FileAllowed(['mp3', 'ogg','wav'], 'Solo archivos de voz!')])
+	fecha_inicio = DateTimeField(u'Fecha Inicio',id="fecha_inicio" ,format='%Y/%m/%d', validators=[DataRequired()])
+	fecha_fin = DateTimeField(u'Fecha Fin', format='%Y/%m/%d',validators=[DataRequired()])
+	valor_pago = DecimalField(u'Valor a pagar', validators=[DataRequired()])
+	guion_voz = StringField(u'Guión', validators=[DataRequired()])
+	recomendaciones = StringField(u'Recomendaciones')
+
 class createVozForm(FlaskForm):
 	name        = StringField  (u'name', validators=[DataRequired()])
 	lastname    = StringField  (u'lastname', validators=[DataRequired()])

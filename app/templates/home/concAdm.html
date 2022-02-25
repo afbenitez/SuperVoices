@@ -36,6 +36,10 @@
                                        {% for key in datos[0] %}
                                        <th> {{ key }} </th>
                                        {% endfor %}
+                                       <th></th>
+                                       <th></th>
+                                       <th></th>
+                                       <th></th>
                                     </tr>
                                     {% endif %}
                                   
@@ -45,6 +49,10 @@
                                        {% for value in dict_item.values() %}
                                        <td> {{ value }} </td>
                                        {% endfor %}
+                                       <td><a class="btn-primary btn" href= "{{ url_for('verConcurso', urlConcurso=dict_item['Url concurso']) }}" >Ver</a></td> 
+                                       <td><a class="btn-primary btn" href= "{{ url_for('deleteConcurso', urlConcurso=dict_item['Url concurso']) }}" >Eliminar</a></td>
+                                       <td><a class="btn-primary btn" href= "{{ url_for('ingresarVoz', urlConcurso=dict_item['Url concurso']) }}" >+Voz</a></td>
+                                       <td><a class="btn-primary btn" href= "{{ url_for('verVoces', urlConcurso=dict_item['Url concurso']) }}" >Voces</a></td>
                                     </tr>
                                     {% endfor %}
                                 </table>

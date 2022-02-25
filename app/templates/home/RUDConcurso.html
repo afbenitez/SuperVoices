@@ -16,107 +16,93 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-md-8 text-center">
-                    <h1 class="display-3 mb-4">Concurso: Name</h1>
+                    <h1 class="display-3 mb-4">Concurso:  {{concursoActual.nombre}} </h1>
                 </div>
             </div>
         </div>
     </div>
-    <!-- End of Hero -->
-    <form method="POST" action="" action="#">
+     <!-- End of Hero -->
+     <form method="POST" action="" action="#" enctype=multipart/form-data>
         <!-- Section -->
         <div class="section section-md pt-4">
             <div class="container">
                 <div class="row mb-4 mb-lg-5">
                     <div class="col-lg-4 col-sm-6">
                         <div class="mb-4">
-                            <label for="nombreConcurso">Nombre</label>
-                            <input type="text" class="form-control" id="nombreConcurso" required>
+                            {{ form.name.label() }}
+                            {{ form.name(class="form-control", value = concursoActual.nombre) }}
                         </div>
                         <div class="mb-4">
-                            <label for="fecIniConc">Fecha de inicio</label>
+                            {{ form.fecha_inicio.label() }}
                             <div class="form-group">
                                 <div class="input-group input-group-border">
                                     <span class="input-group-text" id="basic-addonDate2"><span
                                             class="fas far fa-calendar-alt"></span></span>
-                                    <input class="form-control" data-datepicker="" id="fecIniConc"
-                                        placeholder="Start date" type="text">
-                                </div>
+                                    {{ form.fecha_inicio(class='form-control',placeholder='YYYY/MM/DD' , value = concursoActual.fecha_inicio)}}
+                                    </div>
                             </div>
                         </div>
                         <div class="mb-4">
+                            {{ form.fecha_fin.label() }}
                             <div class="form-group">
-                                <label for="fecFinConc">Fecha de finalización</label>
                                 <div class="input-group input-group-border">
-                                    <span class="input-group-text" id="basic-addonDate3"><span
+                                    <span class="input-group-text" id="basic-addonDate2"><span
                                             class="fas far fa-calendar-alt"></span></span>
-                                    <input class="form-control" data-datepicker="" id="fecFinConc"
-                                        placeholder="End date" type="text">
-                                </div>
+                                    {{ form.fecha_fin(class='form-control',placeholder='YYYY/MM/DD', value = concursoActual.fecha_fin) }}
+                                    </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-sm-6">
-                        <div class="mb-4">
-                            <label for="URLConcurso">URL Deseada</label>
-                            <input type="url" class="form-control" id="URLConcurso">
+                        <div class="form-group mb-4">
+                            <label for="email">URL Deseada</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1"><span class="fas fa-mail-bulk"></span></span>
+                                {{ form.url_concurso(class="form-control", value = concursoActual.url_concurso) }}
+                            </div>  
                         </div>
-
                         <div class="mb-4">
                             <label for="pago">Pago al ganador</label>
-                            <input type="text" name="pago" id="pago" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
-                                class="form-control" value="" data-type="currency" placeholder="$1,000,000.00">
+                            {{ form.valor_pago(class="form-control", value = concursoActual.valor_pago) }}
                         </div>
                         <div class="mb-4">
-                            <label for="currency-field">Imagen del concurso</label>
-                            <input type="file" name="imgConc" id="currency-field">
+                            <label for="voz">Sube una imagen para tu concurso</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1"><span class="fas fa-file-archive"></span></span>
+                                {{ form.url_imagen(class="form-control" , value = concursoActual.url_imagen) }}                              
+                            </div>  
                         </div>
                     </div>
                     <div class="col-lg-4 col-sm-6">
                         <div class="mb-4">
-                            <label for="exampleFormControlTextarea1">Guión</label>
-                            <textarea class="form-control" placeholder="Inserta el texto de tu anuncio"
-                                id="exampleFormControlTextarea1" rows="4"></textarea>
+                            <label for="email">Guión</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1"><span class="fas fa-notes-medical"></span></span>
+                                {{ form.guion_voz(class="form-control", value = concursoActual.guion_voz) }}
+                            </div>  
                         </div>
                         <div class="mb-4">
-                            <label for="exampleFormControlTextarea1">Recomendación</label>
-                            <textarea class="form-control"
-                                placeholder="Inserta las recomendaciones que puedas tener para los locutores"
-                                id="exampleFormControlTextarea1" rows="4"></textarea>
+                            <label for="email">Recomendaciones</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1"><span class="fas fa-notes-medical"></span></span>
+                                {{ form.recomendaciones(class="form-control", value = concursoActual.recomendaciones) }}
+                            </div>  
                         </div>
                     </div>
                 </div>
                 <div class="row mb-5 mb-lg-5">
-                    <div class="col">
+                    <div class="col-lg-4 col-sm-6">
                     </div>
-                    <div class="col">
-                        <button type="submit" name="updConc" class="btn btn-success text-white">Actualizar</button>
+                    <div class="col-lg-4 col-sm-6 justify-content-center d-flex">
+                        <button type="submit" name="addConc" class="btn btn-primary">Actualizar</button>
                     </div>
-                    <div class="col">
-                    </div>
-                    <div class="col">
-                    </div>
-                    <div class="col">
-                    </div>
-                    <div class="col">
-                        <button type="submit" name="delConc" class="btn btn-danger">Eliminar</button>
-                    </div>
-                    <div class="col">
-                    </div>
-                    <div class="col">
-                    </div>
-                    <div class="col">
-                    </div>
-                    <div class="col">
-                        <button type="submit" name="vozConc" class="btn btn-info">Voces</button>
-                    </div>
-                    <div class="col">
+                    <div class="col-lg-4 col-sm-6">
                     </div>
                 </div>
             </div>
         </div>
 
     </form>
-
 
 
 
