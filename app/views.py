@@ -298,18 +298,7 @@ def verVoces(urlConcurso):
             return render_template('home/listVoices.html', datos=traerVoces(0,concurso.id),concursoActual=concurso,auth=0)
         return render_template('home/listVoices.html', datos=traerVoces(1,concurso.id),concursoActual=concurso,auth=1)
         
-
-# Form to load user voice
-@app.route('/concursos/<urlConcurso>', methods=['GET', 'POST'])
-def verVoces(urlConcurso):
-    concurso = Concurso.query.filter_by(url_concurso=urlConcurso).first()
-    if concurso:
-        if (not current_user.is_authenticated):
-            return render_template('home/listVoices.html', datos=traerVoces(0,concurso.id),concursoActual=concurso,auth=0)
-        elif (current_user.email!=concurso.email_admin):
-            return render_template('home/listVoices.html', datos=traerVoces(0,concurso.id),concursoActual=concurso,auth=0)
-        return render_template('home/listVoices.html', datos=traerVoces(1,concurso.id),concursoActual=concurso,auth=1)
-        
+ 
 
 def traerVoces(b,cId):
     if b:
