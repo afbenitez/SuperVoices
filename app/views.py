@@ -12,10 +12,12 @@ from sqlalchemy import desc, false, true
 from werkzeug.datastructures import CombinedMultiDict
 
 # Flask modules
+
 from flask import render_template, request, url_for, redirect, send_from_directory, send_file
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.exceptions import HTTPException, NotFound, abort
 from jinja2 import TemplateNotFound
+
 from werkzeug.utils import secure_filename
 
 # App modules
@@ -47,7 +49,6 @@ def logout():
 
 @app.route('/register.html', methods=['GET', 'POST'])
 def register():
-
     # declare the Registration Form
     form = RegisterForm(request.form)
 
@@ -105,7 +106,6 @@ def login():
     if form.validate_on_submit():
 
         # assign form data to variables
-
         username = request.form.get('username', '', type=str)
         password = request.form.get('password', '', type=str)
 
@@ -262,7 +262,6 @@ def index(path):
 def sitemap():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'sitemap.xml')
 
-
 def traerConcursos():
     concursos = Concurso.query.filter_by(email_admin=current_user.email).all()
     objtemp = concursos_schema.dump(concursos)
@@ -288,6 +287,17 @@ def concAdm():
         return redirect(url_for('login'))
     return render_template('home/concAdm.html', datos=traerConcursos())
 
+# Form to load user voice
+@app.route('/concursos/<urlConcurso>', methods=['GET', 'POST'])
+def verVoces(urlConcurso):
+    concurso = Concurso.query.filter_by(url_concurso=urlConcurso).first()
+    if concurso:
+        if (not current_user.is_authenticated):
+            return render_template('home/listVoices.html', datos=traerVoces(0,concurso.id),concursoActual=concurso,auth=0)
+        elif (current_user.email!=concurso.email_admin):
+            return render_template('home/listVoices.html', datos=traerVoces(0,concurso.id),concursoActual=concurso,auth=0)
+        return render_template('home/listVoices.html', datos=traerVoces(1,concurso.id),concursoActual=concurso,auth=1)
+        
 
 # Form to load user voice
 @app.route('/concursos/<urlConcurso>', methods=['GET', 'POST'])
@@ -337,6 +347,7 @@ def traerVoces(b,cId):
 def download(filename):
     return send_file(filename, as_attachment=True, attachment_filename='')
 
+    return objtemp
 
 
 @app.route('/RUDConcurso.html')
