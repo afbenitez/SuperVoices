@@ -12,6 +12,7 @@ from wtforms.validators import InputRequired, Email, DataRequired, Regexp, Equal
 
 x = null
 y = null
+z = null 
 
 class LoginForm(FlaskForm):
 	username    = StringField  (u'Username', validators=[DataRequired()])
