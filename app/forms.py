@@ -10,6 +10,8 @@ from flask_wtf.file     import FileField, FileRequired,FileAllowed
 from wtforms            import StringField, TextAreaField, SubmitField, PasswordField,DateTimeField,DecimalField
 from wtforms.validators import InputRequired, Email, DataRequired, Regexp, EqualTo
 
+x = null
+
 class LoginForm(FlaskForm):
 	username    = StringField  (u'Username', validators=[DataRequired()])
 	password    = PasswordField(u'Password', validators=[DataRequired()])
