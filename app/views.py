@@ -152,10 +152,10 @@ def cConcurso():
         guion_voz = request.form.get('guion_voz', '')
         recomendaciones = request.form.get('recomendaciones', '')
         # format
-        
+
         print(name, fecha_fin, fecha_inicio)
     # convert from string format to datetime format
-    
+
         print(type(fecha_inicio))
 
         # filter User out of database through username
@@ -297,8 +297,6 @@ def verVoces(urlConcurso):
         elif (current_user.email!=concurso.email_admin):
             return render_template('home/listVoices.html', datos=traerVoces(0,concurso.id),concursoActual=concurso,auth=0)
         return render_template('home/listVoices.html', datos=traerVoces(1,concurso.id),concursoActual=concurso,auth=1)
-        
- 
 
 def traerVoces(b,cId):
     if b:
@@ -334,10 +332,7 @@ def traerVoces(b,cId):
 
 @app.route('/download/<filename>')
 def download(filename):
-    return send_file(filename, as_attachment=True, attachment_filename='')
-
-    return objtemp
-
+    return send_from_directory('static', request.args['filename'])
 
 @app.route('/RUDConcurso.html')
 def RUDConcurso():
@@ -380,15 +375,15 @@ def verConcurso(urlConcurso):
 
         if 'valor_pago' in request.form:
             concurso.valor_pago = request.form.get('valor_pago', '')
-       
+
         if 'guion_voz' in request.form:
             concurso.guion_voz = request.form.get('guion_voz', '')
 
         if 'recomendaciones' in request.form:
             concurso.recomendaciones = request.form.get('recomendaciones', '')
-        
+
         db.session.commit()
-    
+
         print('!!!!!!', concurso.nombre)
 
         msg = 'Concurso actualizado exitosamente'
