@@ -31,6 +31,9 @@ from app.schemas import concurso_schema, concursos_schema, voces_schema, voz_sch
 
 # provide login manager with load_user callback
 
+MSG_USER_SUCCESS = "Usuario creado exitosamente"
+LABEL_CREATE_DATE = "Fecha de Creación"
+URL_LIST_VOICE = "home/listVoices.html"
 
 @lm.user_loader
 def load_user(user_id):
@@ -82,7 +85,7 @@ def register():
 
             user.save()
 
-            msg = 'Usuario creado exitosamente'
+            msg = MSG_USER_SUCCESS
             success = True
 
     else:
@@ -171,7 +174,7 @@ def cConcurso():
         print('!!!!!!', user.nombre, user.email_admin, user.fecha_creacion,
               user.fecha_fin, user.fecha_inicio, user.guion_voz)
 
-        msg = 'Usuario creado exitosamente'
+        msg = MSG_USER_SUCCESS
         success = True
 
     else:
@@ -214,7 +217,7 @@ def ingresarVoz(urlConcurso):
             # crearVozUsuario(concurso,file,voz)
             # voz.save(concurso,file)
             crearVozUsuario(concurso, file, voz)
-            msg = 'Usuario creado exitosamente'
+            msg = MSG_USER_SUCCESS
             success = True
 
         else:
@@ -270,7 +273,7 @@ def traerConcursos():
         s['Nombre'] = s.pop('nombre')
         s['Fecha de Inicio'] = s.pop('fecha_inicio')
         s['Fecha de Finalización'] = s.pop('fecha_fin')
-        s['Fecha de Creación'] = s.pop('fecha_creacion')
+        s[LABEL_CREATE_DATE] = s.pop('fecha_creacion')
         s['Valor pagado al ganador'] = s.pop('valor_pago')
         s['Url concurso'] = s.pop('url_concurso')
         s.pop("url_imagen", None)
@@ -293,10 +296,10 @@ def verVoces(urlConcurso):
     concurso = Concurso.query.filter_by(url_concurso=urlConcurso).first()
     if concurso:
         if (not current_user.is_authenticated):
-            return render_template('home/listVoices.html', datos=traerVoces(0,concurso.id),concursoActual=concurso,auth=0)
+            return render_template(URL_LIST_VOICE, datos=traerVoces(0,concurso.id),concursoActual=concurso,auth=0)
         elif (current_user.email!=concurso.email_admin):
-            return render_template('home/listVoices.html', datos=traerVoces(0,concurso.id),concursoActual=concurso,auth=0)
-        return render_template('home/listVoices.html', datos=traerVoces(1,concurso.id),concursoActual=concurso,auth=1)
+            return render_template(URL_LIST_VOICE, datos=traerVoces(0,concurso.id),concursoActual=concurso,auth=0)
+        return render_template(URL_LIST_VOICE, datos=traerVoces(1,concurso.id),concursoActual=concurso,auth=1)
 
 def traerVoces(b,cId):
     if b:
@@ -308,7 +311,7 @@ def traerVoces(b,cId):
             s['Nombre(s)']=s.pop('nombre')
             s['Apellido(s)']=s.pop('apellido')
             s['Estado']=s.pop('procesado')
-            s['Fecha de Creación']=s.pop('fecha_creacion')
+            s[LABEL_CREATE_DATE]=s.pop('fecha_creacion')
             s['Voz Original']=s.pop('url_voz_original')
             s['Voz procesada']=s.pop('url_voz_convertida')
             s.pop("observaciones", None)
@@ -319,7 +322,7 @@ def traerVoces(b,cId):
         for s in objtemp:
             s['ID']=s.pop('id')
             s['Voz procesada']=s.pop('url_voz_convertida')
-            s['Fecha de Creación']=s.pop('fecha_creacion')
+            s[LABEL_CREATE_DATE]=s.pop('fecha_creacion')
             s.pop("email", None)
             s.pop("nombre", None)
             s.pop("apellido", None)
