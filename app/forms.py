@@ -11,8 +11,7 @@ from wtforms            import StringField, TextAreaField, SubmitField, Password
 from wtforms.validators import InputRequired, Email, DataRequired, Regexp, EqualTo
 
 x = null
-y = null
-z = null 
+
 
 class LoginForm(FlaskForm):
 	username    = StringField  (u'Username', validators=[DataRequired()])
