@@ -19,10 +19,6 @@
 	}
 }
 
-.custom-control-label {
-	margin-bottom: 0;
-}
-
 .custom-control-input {
 	&:active~.custom-control-label::before {
 		border-color: $custom-control-indicator-active-border-color;
