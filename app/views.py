@@ -217,7 +217,6 @@ def ingresarVoz(urlConcurso):
             # crearVozUsuario(concurso,file,voz)
             # voz.save(concurso,file)
             crearVozUsuario(concurso, file, voz)
-            msg = MSG_USER_SUCCESS
             success = True
 
         else:
@@ -295,9 +294,7 @@ def concAdm():
 def verVoces(urlConcurso):
     concurso = Concurso.query.filter_by(url_concurso=urlConcurso).first()
     if concurso:
-        if (not current_user.is_authenticated):
-            return render_template(URL_LIST_VOICE, datos=traerVoces(0,concurso.id),concursoActual=concurso,auth=0)
-        elif (current_user.email!=concurso.email_admin):
+        if (not current_user.is_authenticated or current_user.email!=concurso.email_admin):
             return render_template(URL_LIST_VOICE, datos=traerVoces(0,concurso.id),concursoActual=concurso,auth=0)
         return render_template(URL_LIST_VOICE, datos=traerVoces(1,concurso.id),concursoActual=concurso,auth=1)
 
