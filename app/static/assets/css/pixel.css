@@ -351,10 +351,10 @@ abbr[title],
 abbr[data-bs-original-title] {
   text-decoration: underline;
   -webkit-text-decoration: underline dotted;
-          text-decoration: underline dotted;
   cursor: help;
   -webkit-text-decoration-skip-ink: none;
-          text-decoration-skip-ink: none; }
+          text-decoration-skip-ink: none;
+}
 
 address {
   margin-bottom: 1rem;
@@ -16190,7 +16190,7 @@ label {
   .accordion-button::after {
     background-image: none;
     content: '\f067';
-    font-family: "Font Awesome 5 Free";
+    font-family: "Font Awesome 5 Free", sans-serif;
     font-size: 1rem;
     font-weight: 900; }
   .accordion-button:hover {
@@ -17039,13 +17039,13 @@ label {
   background-image: none; }
   .carousel-control-prev-icon::before {
     content: '\f060';
-    font-family: "Font Awesome 5 Free";
+    font-family: "Font Awesome 5 Free", sans-serif;
     font-size: 2rem; }
 
 .carousel-control-next-icon {
   background-image: none; }
   .carousel-control-next-icon:before {
-    font-family: "Font Awesome 5 Free";
+    font-family: "Font Awesome 5 Free", sans-serif;
     content: "\f061";
     font-size: 2rem; }
 
