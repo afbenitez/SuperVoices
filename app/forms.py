@@ -10,7 +10,7 @@ from flask_wtf.file     import FileField, FileRequired,FileAllowed
 from wtforms            import StringField, TextAreaField, SubmitField, PasswordField,DateTimeField,DecimalField
 from wtforms.validators import InputRequired, Email, DataRequired, Regexp, EqualTo
 
-x = null
+x = []
 y = {}
 z = []
 
