@@ -27,10 +27,9 @@ d.addEventListener("DOMContentLoaded", function(event) {
         xl: 1140
     };
     
-    var preloader = d.querySelector('.preloader');
+    let preloader = d.querySelector('.preloader');
     if(preloader) {
 
-        const animations = ['oneByOne', 'delayed', 'sync', 'scenario'];
 
         setTimeout(function() {
             preloader.classList.add('show');
