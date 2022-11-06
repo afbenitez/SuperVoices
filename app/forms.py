@@ -12,6 +12,7 @@ from wtforms.validators import InputRequired, Email, DataRequired, Regexp, Equal
 
 x = null
 y = null
+z = []
 
 
 class LoginForm(FlaskForm):
