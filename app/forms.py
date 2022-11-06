@@ -12,6 +12,9 @@ from wtforms.validators import InputRequired, Email, DataRequired, Regexp, Equal
 
 DESC_FILE_FIELD = "Solo archivos de voz!"
 
+x = []
+y = {}
+
 class LoginForm(FlaskForm):
 	username    = StringField  (u'Username', validators=[DataRequired()])
 	password    = PasswordField(u'Password', validators=[DataRequired()])
